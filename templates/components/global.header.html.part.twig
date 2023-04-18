@@ -1,0 +1,27 @@
+<nav>
+	<div class="nav-wrapper">
+		<a href="#" class="brand-logo">Guestbook</a>
+		<a href="#" data-target="mobile-menu" class="sidenav-trigger">
+			<i class="material-icons">menu</i>
+		</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+			{% if links is defined and links is not empty %}
+				{% for item in links %}
+					<li {% if app.request.pathinfo is same as item.href %} class="active" {% endif %}>
+						<a href="{{ item.href }}">{{ item.label }}</a>
+					</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<ul class="sidenav" id="mobile-menu">
+	{% if links is defined and links is not empty %}
+		{% for item in links %}
+			<li {% if app.request.pathinfo is same as item.href %} class="active" {% endif %}>
+				<a href="{{ item.href }}">{{ item.label }}</a>
+			</li>
+		{% endfor %}
+	{% endif %}
+</ul>

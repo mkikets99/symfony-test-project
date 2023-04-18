@@ -1,75 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Article Page</title>
-		<!-- Import Materialize CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	</head>
-	<body>
-		<!-- Navigation bar -->
-		<nav>
-			<div class="nav-wrapper">
-				<a href="#" class="brand-logo">Guest Book</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li>
-						<a href="index.html">Home</a>
-					</li>
-					<li>
-						<a href="guestbook.html">Guest Book</a>
-					</li>
-					<li class="active">
-						<a href="article.html">Article</a>
-					</li>
-					<li>
-						<a href="login.html">Login</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-		<!-- Article Content -->
-		<div class="container">
-			<h4>Article Title</h4>
-			<!-- Language Selector -->
-			<div class="right">
-				<form>
-					<div class="input-field col s12">
-						<select id="language-select">
-							<option value="en" selected>English</option>
-							<option value="de">German</option>
-						</select>
-						<label>Language</label>
-					</div>
-				</form>
-			</div>
-			<p id="article-text-en">
-				English article text goes here
-			</p>
-			<p id="article-text-de" style="display:none">
-				German article text goes here
-			</p>
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% endblock %}
+
+{% block body %}
+	<!-- Article Content -->
+	<div class="container">
+		<h4>Article Title</h4>
+		<!-- Language Selector -->
+		<div class="right">
+			<form>
+				<div class="input-field col s12">
+					<select id="language-select">
+						<option value="en" selected>English</option>
+						<option value="de">German</option>
+					</select>
+					<label>Language</label>
+				</div>
+			</form>
 		</div>
+		<p id="article-text-en">
+			English article text goes here
+		</p>
+		<p id="article-text-de" style="display:none">
+			German article text goes here
+		</p>
+	</div>
 
-		<!-- Initialize Materialize JavaScript -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% endblock %}
+
+{% block post_js %}
+	{{ parent() }}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script>
-			$(document).ready(function () { // Initialize Materialize Select
-var select = document.querySelectorAll('select');
-M.FormSelect.init(select);
+	<script>
+		$(document).ready(function () { // Initialize Materialize Select
+			var select = document.querySelectorAll('select');
+			M.FormSelect.init(select);
 
-// Change article text based on language selection
-$("#language-select").change(function () {
-var selectedLang = $(this).val();
-if (selectedLang == "en") {
-$("#article-text-en").show();
-$("#article-text-de").hide();
-} else {
-$("#article-text-en").hide();
-$("#article-text-de").show();
-}
-});
-});
-		</script>
-	</body>
-</html>
+			// Change article text based on language selection
+			$("#language-select").change(function () {
+				var selectedLang = $(this).val();
+				if (selectedLang == "en") {
+					$("#article-text-en").show();
+					$("#article-text-de").hide();
+				} else {
+					$("#article-text-en").hide();
+					$("#article-text-de").show();
+				}
+			});
+		});
+	</script>
+{% endblock %}
