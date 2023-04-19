@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,6 +38,12 @@ class User
 
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $browserINFO = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastLogin = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastAction = null;
 
     public function getId(): ?int
     {
@@ -135,6 +142,30 @@ class User
     public function setBrowserINFO(string $browserINFO): self
     {
         $this->browserINFO = $browserINFO;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getLastAction(): ?\DateTimeInterface
+    {
+        return $this->lastAction;
+    }
+
+    public function setLastAction(?\DateTimeInterface $lastAction): self
+    {
+        $this->lastAction = $lastAction;
 
         return $this;
     }

@@ -50,6 +50,9 @@
     "gregwar/captcha-bundle": {
         "version": "v2.2.0"
     },
+    "marvin255/random-string-generator": {
+        "version": "v2.0.0"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {

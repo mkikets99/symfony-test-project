@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Session;
 use App\Entity\User;
 use App\Types\LoginForm;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,12 +20,20 @@ class MainRouteController extends AbstractController
     array('href' => "/articles", 'label' => 'Articles')
   );
   #[Route('/', name: 'home')]
-  public function home()
+  public function home(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger)
   {
+    $userID = $request->getSession()->get('user_id');
+    if ($userID !=  null) {
+      $user = $entityManager->getRepository(User::class)->find($userID);
+
+      $user->setLastAction(new \DateTime());
+      $entityManager->persist($user);
+      $entityManager->flush();
+    }
 
     return $this->render('pages/home.html.twig', array(
       'links' => array_merge($this->default_links, array(
-        array('href' => "/login", 'label' => "Login")
+        array('href' => (($userID == null) ? "/login" : "/logout"), 'label' => ($userID == null) ? "Login" : "Logout")
       ))
     ));
     // return new Response('Hello World');
