@@ -2,16 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Session;
 use App\Entity\User;
-use App\Types\LoginForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class MainRouteController extends AbstractController
 {

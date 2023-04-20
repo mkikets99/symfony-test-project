@@ -10,7 +10,9 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    
+    session:
+        class: Symfony\Component\HttpFoundation\Session\Session
+    Symfony\Component\HttpFoundation\Session\SessionInterface: '@session'
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'
@@ -22,6 +24,36 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Doctrine/'
+
+    App\Doctrine\:
+        resource: '../src/Doctrine/'
+        tags: ['doctrine.orm.entity_listener']
+    
+    App\Security\AdminSecurity:
+        arguments:
+            - '@security.authorization_checker'
+        tags:
+            - { name: sonata.admin.security.handler, admin: sonata.admin.user }
+    app.security.admin_authentication_success_handler:
+        class: App\Security\AdminAuthenticationSuccessHandler
+        arguments: ['@router']
+        
+    app.admin.record:
+        class: App\Admin\RecordAdmin
+        arguments: [~, App\Entity\Record, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content Management", label: "Records", context: "default" }
+
+    app.admin.user:
+        class: App\Admin\UserAdmin
+        arguments:
+            - ~
+            - App\Entity\User
+            - ~
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Users Management", label: "User" }
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
